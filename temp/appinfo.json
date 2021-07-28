@@ -1,0 +1,13 @@
+{
+  "id": "com.domain.calcall",
+  "version": "1.0.0",
+  "vendor": "KNU",
+  "type": "web",
+  "main": "index.html",
+  "title": "CalCall",
+  "icon": "icon.png",
+  "requiredPermissions": [
+    "time.query",
+    "activity.operation"
+  ]
+}
