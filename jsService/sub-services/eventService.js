@@ -9,6 +9,7 @@ export function applyEventservice(pkgInfo,service,path){
     // addEvent {
     //     device_id = string;
     //     action_id = string;
+    //     title = string;
     //     contents = string;
     //     start = date;
     //     end = date;
@@ -17,9 +18,10 @@ export function applyEventservice(pkgInfo,service,path){
         let eventinfo = new eventInfo(
             message.payload.device_id,
             message.payload.action_id,
+            message.payload.title,
             message.payload.contents,
-            makeHourstr(message.payload.start),
-            makeHourstr(message.payload.end),
+            message.payload.start,
+            message.payload.end,
         );
         let res = addEvent(eventinfo);
         if(res[1] == true){
