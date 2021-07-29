@@ -1,9 +1,0 @@
-{
-  "id": "com.domain.calcall.service",
-  "description": "HelloWorld Service",
-  "services": [
-    {
-      "name": "com.domain.calcall.service"
-    }
-  ]
-}
