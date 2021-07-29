@@ -1,4 +1,4 @@
-import jobInfo from '../modules/eventModule'
+import { jobInfo } from '../modules/eventModule'
 import { initEventModule, addEvent, delEvent , eventInfo, makeHourstr, getEventlist } from './modules/eventModule';
 
 let job_daystarter=null;
