@@ -1,12 +1,11 @@
-import { jobInfo } from '../modules/eventModule'
-import { initEventModule, addEvent, delEvent , eventInfo, makeHourstr, getEventlist } from './modules/eventModule';
+const { initEventModule, addEvent, delEvent , eventInfo, getEventlist } = require('../modules/eventModule');
 
 let job_daystarter=null;
 
-export function applyEventservice(pkgInfo,service,path){
+function applyEventservice(pkgInfo,service,path){
     initEventModule(job_daystarter,path);
 
-    // addEvent {
+    // addEvent {s
     //     device_id = string;
     //     action_id = string;
     //     title = string;
@@ -64,3 +63,6 @@ export function applyEventservice(pkgInfo,service,path){
         });
     });
 }
+
+module.exports = {applyEventservice}
+  

@@ -4,15 +4,15 @@ const encode = 'utf8';
 let defaultpath;
 let eventList={};
 
-export function initEventModule(job_daystarter,path){
+function initEventModule(job_daystarter,path){
     defaultpath = path+'/EventData1.json';
-    eventList = readEventData(date);
-    eventList.forEach(i=>{
-        addJobs(index);
-    })
+    eventList = readEventData();
+    // eventList.forEach(i=>{
+    //     addJobs(index);
+    // })
 }
 
-export class eventInfo{
+class eventInfo{
     constructor(device_id, action_id, contents, start, end){
         this.device_id = device_id;
         this.action_id = action_id;
@@ -23,16 +23,19 @@ export class eventInfo{
 }
 
 function readEventData(){
-    try{
-        const eventFile = fs.readFileSync(defaultpath,encode);
-        return JSON.parse(eventFile);
-    }catch(e){
-        fs.writeFileSync(defaultpath, {}, {
-            encoding: encode,
-            flag: 'w',
-        });
-        return {};
-    }
+    fs.exists(defaultpath,(isEx)=>{
+        if(isEx){
+            // const eventFile = fs.readFileSync(defaultpath,encode);
+            // return JSON.parse(eventFile);
+        }
+        else{
+            // fs.writeFileSync(defaultpath, {}, {
+            //     encoding: encode,
+            //     flag: 'w',
+            // });
+            // return {};
+        }
+    });
 };
 
 function addJobs(index){
@@ -42,12 +45,12 @@ function delJob(index){
 
 }
 
-export function getEventlist(){
+function getEventlist(){
     eventList = readEventData();
     return eventList;
 }
 
-export function delEvent(eventID){
+function delEvent(eventID){
     eventlist[eventID] = null;
     try{
         fs.writeFileSync(defaultpath, eventlist, {
@@ -61,7 +64,7 @@ export function delEvent(eventID){
     return [eventID,true];
 }
 
-export function addEvent(eventInfo){
+function addEvent(eventInfo){
     let index = Object.keys(eventlist).length;
 
     eventlist[index] = eventInfo;
@@ -78,3 +81,4 @@ export function addEvent(eventInfo){
     return [index,true];
 }
 
+module.exports = { initEventModule, addEvent, delEvent , eventInfo, getEventlist };

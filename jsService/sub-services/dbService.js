@@ -1,4 +1,4 @@
-export function applyDB(pkgInfo,service,dbname){
+function applyDB(pkgInfo,service,dbname){
     service.register("createDB",function(message){
         const query={"query": {"from":dbname}};
         const kind={ 
@@ -100,3 +100,5 @@ export function applyDB(pkgInfo,service,dbname){
         service.call(service_name+'find',query);
     });
 }
+
+module.exports = {applyDB};
