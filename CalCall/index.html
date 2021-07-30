@@ -1,12 +1,75 @@
+<!--
+Copyright (c) 2020 LG Electronics Inc.
+
+SPDX-License-Identifier: Apache-2.0
+-->
+
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="UTF-8">
-		<meta http-equiv="x-ua-compatible" content="ie=edge">
-		<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
-		<title></title>
-	<link href="main.css" rel="stylesheet"/></head>
-	<body>
-		<div id="root"></div>
-	<script src="main.js"></script></body>
+<head>
+<title>txt Web App</title>
+<style type="text/css">
+    body {
+        width: 100%;
+        height: 100%;
+        background-color:lightgrey;
+    }
+    textarea{
+        margin-top: 100px;
+        width: 500px;
+        height: 300px;
+    }
+</style>
+<script type="text/javascript">
+    var bridge;
+
+    function callAPI(method, params, callback){
+        const API="luna://com.domain.txtapp.txtservice/"+method;
+
+        bridge.onservicecallback = callback;
+        bridge.call(API, params);
+    }
+
+    function setPathClicked(){
+        callAPI('setpath',`{
+            "path": "${document.getElementById("path").value}"
+        }`,(msg)=>{});
+        callAPI('ls',`{
+        }`,(msg)=>{
+            var arg = JSON.parse(msg);
+            let list = document.getElementById("list");
+            if (arg.returnValue) {
+                arg.Response.forEach(file=>{
+                    let item = document.createElement("li");
+                    item.innerHTML=file;
+                    
+                    item.addEventListener("click",(event)=>{
+                        callAPI('read',`{
+                            "name":"${event.target.innerHTML}", "encode":"utf8"
+                        }`,(msg)=>{
+                            var arg = JSON.parse(msg);
+                            document.getElementById("textarea").innerHTML = arg.Response;
+                        });
+                    });
+                    list.appendChild(item);
+                });
+            }
+        });
+    }
+
+    window.onload = function() {
+        bridge = new WebOSServiceBridge();
+        setPathClicked();
+    }
+</script>
+</head>
+<body>
+    <div>
+        <h2>Set default path</h2>
+        <input type="text" id="path" value="/home/root/texts">
+        <input type="button" onclick="setPathClicked()">
+        <ul id="list"></ul>
+        <textarea id="textarea">test</textarea>
+    </div>
+</body>
 </html>
