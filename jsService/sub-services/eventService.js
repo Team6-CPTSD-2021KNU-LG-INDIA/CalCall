@@ -59,7 +59,7 @@ function applyEventservice(pkgInfo,service,path){
     service.register("getEventlist", function(message) {
         message.respond({
             returnValue: true,
-            Response: JSON.stringify(getEventlist()),
+            Response: getEventlist(),
         });
     });
 }
