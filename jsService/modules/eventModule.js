@@ -2,10 +2,10 @@ const schedule = require('node-schedule');
 const fs = require('fs');
 const encode = 'utf8';
 let defaultpath;
-let eventList={};
+let eventList;
 
 function initEventModule(job_daystarter,path){
-    defaultpath = path+'/EventData1.json';
+    defaultpath = path+'EventData1.json';
     eventList = readEventData();
     // eventList.forEach(i=>{
     //     addJobs(index);
@@ -23,19 +23,21 @@ class eventInfo{
 }
 
 function readEventData(){
-    fs.exists(defaultpath,(isEx)=>{
-        if(isEx){
-            // const eventFile = fs.readFileSync(defaultpath,encode);
-            // return JSON.parse(eventFile);
+    try {
+        fs.statSync(defaultpath);
+    }catch(error) {
+        if (error.code === "ENOENT") {
+            fs.writeFileSync(defaultpath, '{}', {
+                encoding: encode,
+                flag: 'w',
+            });
+            return {};
         }
-        else{
-            // fs.writeFileSync(defaultpath, {}, {
-            //     encoding: encode,
-            //     flag: 'w',
-            // });
-            // return {};
-        }
-    });
+        else
+            return 'error';
+    }
+    const eventFile = fs.readFileSync(defaultpath,encode);
+    return JSON.parse(eventFile);
 };
 
 function addJobs(index){
@@ -46,14 +48,20 @@ function delJob(index){
 }
 
 function getEventlist(){
-    eventList = readEventData();
-    return eventList;
+    return Object.keys(eventList).map((index)=>{
+        if(eventList[index] != null){
+            return eventList[index];
+        }
+        else{
+            return null
+        }
+    });
 }
 
 function delEvent(eventID){
-    eventlist[eventID] = null;
+    eventList[eventID] = null;
     try{
-        fs.writeFileSync(defaultpath, eventlist, {
+        fs.writeFileSync(defaultpath, JSON.stringify(eventList), {
             encoding: encode,
             flag: 'w',
         });
@@ -61,23 +69,25 @@ function delEvent(eventID){
         return [e.toString(),false];
     }
     delJob(index);
+    eventList = readEventData();
     return [eventID,true];
 }
 
 function addEvent(eventInfo){
-    let index = Object.keys(eventlist).length;
+    let index = Object.keys(eventList).length;
 
-    eventlist[index] = eventInfo;
+    eventList[index] = eventInfo;
 
     try{
-        fs.writeFileSync(defaultpath, eventlist, {
+        fs.writeFileSync(defaultpath, JSON.stringify(eventList), {
             encoding: encode,
             flag: 'w',
         });
     }catch(e){
-        return [e.toString(),false];
+        return [e,false];
     }
     addJobs(index);
+    eventList = readEventData();
     return [index,true];
 }
 

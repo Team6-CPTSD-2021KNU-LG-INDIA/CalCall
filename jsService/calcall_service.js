@@ -6,29 +6,19 @@ const Service = require('webos-service');
 const service = new Service(pkgInfo.name);
 
 (()=>{
-    let err = "no";
+  let err = 'no error';
 
-    // try{
-    //     applyEventservice(pkgInfo,service,config.datapath);
-    // }
-    // catch(e){
-    //     err=e.toString();
-    // }
+    try{
+        applyEventservice(pkgInfo,service,config.datapath);
+    }
+    catch(e){
+        err=e.toString();
+    }
     
     service.register("test", function(message) {
         message.respond({
             returnValue: true,
-            Response: [        
-              {
-                title: 'All Day Event',
-                start: '2021-07-01'
-              },
-              {
-                title: 'Long Event',
-                start: '2021-07-01',
-                end: '2021-07-10',
-              },
-            ],
+            Response: err,
         });
     });
 })();

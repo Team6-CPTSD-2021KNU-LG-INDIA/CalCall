@@ -23,7 +23,7 @@ function applyEventservice(pkgInfo,service,path){
             message.payload.end,
         );
         let res = addEvent(eventinfo);
-        if(res[1] == true){
+        if(res[1]){
             message.respond({
                 returnValue: true,
                 Response: res[0],
@@ -32,7 +32,7 @@ function applyEventservice(pkgInfo,service,path){
         else{
             message.respond({
                 returnValue: false,
-                Response: res[0],
+                errorText: res[0],
             });
         }
     });
@@ -42,7 +42,7 @@ function applyEventservice(pkgInfo,service,path){
     // } 
     service.register("delEvent", function(message) {
         let res = delEvent(message.payload.eventID);
-        if(res[1] == true){
+        if(res[1]){
             message.respond({
                 returnValue: true,
                 Response: res[0],
@@ -59,7 +59,7 @@ function applyEventservice(pkgInfo,service,path){
     service.register("getEventlist", function(message) {
         message.respond({
             returnValue: true,
-            Response: getEventlist(),
+            Response: JSON.stringify(getEventlist()),
         });
     });
 }
