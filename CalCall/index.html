@@ -1,97 +1,12 @@
-<!--
-Copyright (c) 2020 LG Electronics Inc.
-
-SPDX-License-Identifier: Apache-2.0
--->
-
 <!DOCTYPE html>
 <html>
-<head>
-<title>txt Web App</title>
-<style type="text/css">
-    body {
-        width: 100%;
-        height: 100%;
-        background-color:lightgrey;
-    }
-    textarea{
-        margin-top: 100px;
-        width: 500px;
-        height: 300px;
-    }
-</style>
-<script type="text/javascript">
-    var bridge;
-
-    function callAPI(method, params, callback){
-        const API="luna://com.domain.calcall.service/"+method;
-
-        bridge.onservicecallback = callback;
-        bridge.call(API, params);
-    }
-
-    function testclk(){
-        callAPI('test',`{}`,(msg)=>{
-            var arg = JSON.parse(msg);
-            if (arg.returnValue) {
-                document.getElementById("textarea").innerHTML = arg.Response;
-            }
-        });
-    }
-    function getclk(){
-        callAPI('getEventlist',`{}`,(msg)=>{
-            var arg = JSON.parse(msg);
-            if (arg.returnValue) {
-                document.getElementById("textarea").innerHTML = JSON.stringify(arg.Response);
-            }
-        });
-    }
-    function addclk(){
-        callAPI('addEvent',`{
-            "device_id" : "1",
-            "action_id" : "1",
-            "title" : "1",
-            "contents" : "1",
-            "start" : "${new Date().toUTCString()}",
-            "end" : "${new Date().toUTCString()}"
-        }`,(msg)=>{
-            var arg = JSON.parse(msg);
-            console.log(msg);
-            if (arg.returnValue) {
-                document.getElementById("textarea").innerHTML = arg.Response.toString();
-            }
-            else{
-                document.getElementById("textarea").innerHTML = arg.errorText.toString();
-            }
-        });
-    }
-    function delclk(){
-        callAPI('delEvent',`{
-            "eventID":"${document.getElementById('target').value}"
-        }`,(msg)=>{
-            var arg = JSON.parse(msg);
-            if (arg.returnValue) {
-                document.getElementById("textarea").innerHTML = arg.Response.toString();
-            }
-            else{
-                document.getElementById("textarea").innerHTML = arg.errorText.toString();
-            }
-        });
-    }
-    window.onload = function() {
-        bridge = new WebOSServiceBridge();
-    }
-</script>
-</head>
-<body>
-    <div>
-        <h2>Set default path</h2>
-        <input type='text' id='target' value="0"></input>
-        <input type="button" onclick="testclk()" value ="test">
-        <input type="button" onclick="getclk()" value ="getlist">
-        <input type="button" onclick="addclk()" value ="add">
-        <input type="button" onclick="delclk()" value ="del">
-        <textarea id="textarea">test</textarea>
-    </div>
-</body>
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="x-ua-compatible" content="ie=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
+		<title></title>
+	<link href="main.css" rel="stylesheet"/></head>
+	<body>
+		<div id="root"></div>
+	<script src="main.js"></script></body>
 </html>
