@@ -48,13 +48,11 @@ function delJob(index){
 }
 
 function getEventlist(){
-    return Object.keys(eventList).map((index)=>{
-        if(eventList[index] != null){
-            return eventList[index];
-        }
-        else{
-            return null
-        }
+    return Object.keys(eventList).filter((index)=>eventList[index] != null)
+    .map((index)=>{
+        let res = eventList[index];
+        res.eventID = index;
+        return res;
     });
 }
 
