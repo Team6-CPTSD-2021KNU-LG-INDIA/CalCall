@@ -4,7 +4,6 @@ let job_daystarter=null;
 
 function applyEventservice(pkgInfo,service,path){
     initEventModule(job_daystarter,path);
-
     // addEvent {s
     //     device_id = string;
     //     action_id = string;
@@ -26,13 +25,13 @@ function applyEventservice(pkgInfo,service,path){
         if(res[1]){
             message.respond({
                 returnValue: true,
-                Response: res[0],
+                Response: getEventlist(),
             });
         }
         else{
             message.respond({
                 returnValue: false,
-                errorText: res[0],
+                errorText: getEventlist(),
             });
         }
     });

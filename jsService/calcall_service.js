@@ -6,8 +6,7 @@ const Service = require('webos-service');
 const service = new Service(pkgInfo.name);
 
 (()=>{
-  let err = 'no error';
-
+    let err = 'no error';
     try{
         applyEventservice(pkgInfo,service,config.datapath);
     }
