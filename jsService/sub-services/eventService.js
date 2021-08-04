@@ -13,15 +13,7 @@ function applyEventservice(pkgInfo,service,path){
     //     end = date;
     // } return 으로 이벤트 ID 반환
     service.register("addEvent", function(message) {
-        let eventinfo = new eventInfo(
-            message.payload.device_id,
-            message.payload.action_id,
-            message.payload.title,
-            message.payload.contents,
-            message.payload.start,
-            message.payload.end,
-        );
-        let res = addEvent(eventinfo);
+        let res = addEvent(message.payload.data);
         if(res[1]){
             message.respond({
                 returnValue: true,

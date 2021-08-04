@@ -78,11 +78,13 @@ function delEvent(eventID){
     return [eventID,true];
 }
 
-function addEvent(eventInfo){
+function addEvent(data){
     let index = Object.keys(eventList).length;
 
-    eventList[index] = eventInfo;
-
+    data.forEach((item)=>{
+        eventList[index] = item;
+        index+=1;
+    });
     try{
         fs.writeFileSync(defaultpath, JSON.stringify(eventList), {
             encoding: encode,
